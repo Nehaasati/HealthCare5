@@ -2,9 +2,10 @@
 using System.Diagnostics;
 
 List<User> users = new();
+users.Add(new User("123", "1234")); // example user
+
+List<Location> locations = new();   // store added locations
 User? active_user = null;
-
-
 
 bool running = true;
 
@@ -15,20 +16,20 @@ while (running)
     if (active_user == null)
     {
         Console.WriteLine("=== HealthCare System Login ===");
-        Console.Write("Username: ");
+        Console.Write("Username (SSN): ");
         string? username = Console.ReadLine();
 
-    	Console.Clear();
+        Console.Clear();
         Console.WriteLine("=== HealthCare System Login ===");
         Console.Write("Password: ");
         string? password = Console.ReadLine();
 
-	    Debug.Assert(username != null);
-	    Debug.Assert(password != null);
+        Debug.Assert(username != null);
+        Debug.Assert(password != null);
 
         foreach (User user in users)
         {
-            if(user.SSN == username && user.Password == password)
+            if (user.SSN == username && user.Password == password)
             {
                 active_user = user;
                 break;
@@ -45,13 +46,54 @@ while (running)
     {
         Console.Clear();
         Console.WriteLine("=== HealthCare System ===");
+        Console.WriteLine("[1] Add Location");
+        Console.WriteLine("[2] View Locations");
+        Console.WriteLine("[q] Logout");
+        Console.Write("Select option: ");
+        string? choice = Console.ReadLine();
 
-	    Console.WriteLine("[q] - quit");
+        switch (choice)
+        {
+            case "1":
+                Console.Clear();
+                Console.WriteLine("=== Add New Location ===");
+                Console.Write("Location Name: ");
+                string? name = Console.ReadLine();
+                Console.Write("Description: ");
+                string? description = Console.ReadLine();
 
-	    switch(Console.ReadLine())
-	    {
-		    case "q": running = false; break;
-	    }
+                if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(description))
+                {
+                    locations.Add(new Location(name, description));
+                    Console.WriteLine("Location added successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Try again.");
+                }
+                Console.ReadKey();
+                break;
 
+            case "2":
+                Console.Clear();
+                Console.WriteLine("=== All Locations ===");
+                if (locations.Count == 0)
+                {
+                    Console.WriteLine("No locations added yet.");
+                }
+                else
+                {
+                    foreach (var loc in locations)
+                    {
+                        Console.WriteLine($"- {loc.Name}: {loc.Description}");
+                    }
+                }
+                Console.ReadKey();
+                break;
+
+            case "q":
+                active_user = null; // logout
+                break;
+        }
     }
 }
