@@ -2,7 +2,7 @@ namespace App;
 
 class User
 {
-	public string SSN;
+	public string SSN; //Social Security Number
 	public string Password;
 
 	public User(string ssn, string password)
