@@ -1,4 +1,4 @@
-namespace App;
+namespace HealthCare5;
 
 class User
 {
