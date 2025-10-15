@@ -62,7 +62,7 @@ while (running)
                 Console.Write("Description: ");
                 string? description = Console.ReadLine();
 
-                if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(description))
+                if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(description))
                 {
                     locations.Add(new Location(name, description));
                     Console.WriteLine("Location added successfully!");
@@ -71,7 +71,7 @@ while (running)
                 {
                     Console.WriteLine("Invalid input. Try again.");
                 }
-                Console.ReadKey();
+                Console.ReadLine();
                 break;
 
             case "2":
@@ -83,12 +83,12 @@ while (running)
                 }
                 else
                 {
-                    foreach (var loc in locations)
+                    foreach (Location loc in locations)
                     {
                         Console.WriteLine($"- {loc.Name}: {loc.Description}");
                     }
                 }
-                Console.ReadKey();
+                Console.ReadLine();
                 break;
 
             case "q":
