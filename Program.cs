@@ -1,8 +1,9 @@
 ﻿using HealthCare5;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 List<User> users = new();
-users.Add(new User("123", "1234")); // example user
+users.Add(new User("123", "1234", "manuel")); // example user
 
 List<Location> locations = new();   // store added locations
 User? active_user = null;
@@ -15,21 +16,24 @@ while (running)
 
     if (active_user == null)
     {
+
+
+
         Console.WriteLine("=== HealthCare System Login ===");
         Console.Write("Username (SSN): ");
-        string? username = Console.ReadLine();
+        string? loginusername = Console.ReadLine();
 
         Console.Clear();
         Console.WriteLine("=== HealthCare System Login ===");
         Console.Write("Password: ");
-        string? password = Console.ReadLine();
+        string? loginpassword = Console.ReadLine();
 
-        Debug.Assert(username != null);
-        Debug.Assert(password != null);
+        Debug.Assert(loginusername != null);
+        Debug.Assert(loginpassword != null);
 
         foreach (User user in users)
         {
-            if (user.SSN == username && user.Password == password)
+            if (user.SSN == loginusername && user.Password == loginpassword)
             {
                 active_user = user;
                 break;
@@ -46,8 +50,9 @@ while (running)
     {
         Console.Clear();
         Console.WriteLine("=== HealthCare System ===");
-        Console.WriteLine("[1] Add Location");
-        Console.WriteLine("[2] View Locations");
+        Console.WriteLine("[1] Registration");
+        Console.WriteLine("[2] Add Location");
+        Console.WriteLine("[3] View Locations");
         Console.WriteLine("[q] Logout");
         Console.Write("Select option: ");
         string? choice = Console.ReadLine();
@@ -55,6 +60,25 @@ while (running)
         switch (choice)
         {
             case "1":
+                if (active_user.Role != "patient")
+
+                    Console.Clear();
+                Console.WriteLine("=== Patient Registration ===");
+                Console.WriteLine("Patient Name: ");
+                string? Name = Console.ReadLine();
+                Console.Clear();
+                Console.WriteLine("=== Patient Registration ===");
+                Console.WriteLine("Patient SSN: ");
+                string? SSN = Console.ReadLine();
+                Console.Clear();
+                Console.WriteLine("=== Patient Registration ===");
+                Console.WriteLine("Patient Email: ");
+                string? Email = Console.ReadLine();
+                break;
+
+
+
+            case "2":
                 Console.Clear();
                 Console.WriteLine("=== Add New Location ===");
                 Console.Write("Location Name: ");
@@ -74,7 +98,7 @@ while (running)
                 Console.ReadLine();
                 break;
 
-            case "2":
+            case "3":
                 Console.Clear();
                 Console.WriteLine("=== All Locations ===");
                 if (locations.Count == 0)
@@ -90,6 +114,8 @@ while (running)
                 }
                 Console.ReadLine();
                 break;
+
+
 
             case "q":
                 active_user = null; // logout

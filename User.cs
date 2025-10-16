@@ -5,9 +5,11 @@ class User
 	public string SSN;
 	public string Password;
 
-	public User(string ssn, string password)
+	public string Role;
+	public User(string ssn, string password, string role)
 	{
 		SSN = ssn;
 		Password = password;
+		Role = role;
 	}
 }
