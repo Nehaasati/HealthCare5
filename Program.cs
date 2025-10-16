@@ -1,8 +1,14 @@
-﻿using HealthCare5;
+﻿
+
+using HealthCare5;
 using System.Diagnostics;
 
 List<User> users = new();
-users.Add(new User("123", "1234")); // example user
+users.Add(new User("111", "1111", User.Role.SuperAdmin));
+users.Add(new User("222", "2222", User.Role.Admin));
+users.Add(new User("333", "3333", User.Role.Patient));
+users.Add(new User("444", "4444", User.Role.Personnel));
+
 
 List<Location> locations = new();   // store added locations
 User? active_user = null;
@@ -62,10 +68,21 @@ while (running)
                 Console.Write("Description: ");
                 string? description = Console.ReadLine();
 
-                if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(description))
+                if (active_user.UserRole == User.Role.SuperAdmin || active_user.UserRole == User.Role.Admin)
                 {
-                    locations.Add(new Location(name, description));
-                    Console.WriteLine("Location added successfully!");
+
+                    if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(description))
+                    {
+                        locations.Add(new Location(name, description));
+                        Console.WriteLine("Location added successfully");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Try again");
+
+                    }
+                    Console.ReadLine();
+                    break;
                 }
                 else
                 {
@@ -73,6 +90,7 @@ while (running)
                 }
                 Console.ReadLine();
                 break;
+
 
             case "2":
                 Console.Clear();
