@@ -2,16 +2,27 @@ namespace HealthCare5;
 
 class User
 {
-	public string SSN; //Social Security Number
-	public string Email;
+	public string SSN;
 	public string Password;
-	public string Status;
 
-	public User(string ssn, string email, string password, string status = "Active")
+	public enum Role
+	{
+		SuperAdmin,
+		Admin,
+		Personnel,
+		Patient,
+
+
+	}
+
+	public Role UserRole;
+	public User(string ssn, string password, Role role)
 	{
 		SSN = ssn;
-		Email = email;
 		Password = password;
-		Status = status;
+		UserRole = role;
 	}
+
 }
+
+
