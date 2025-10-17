@@ -5,9 +5,24 @@ class User
 	public string SSN;
 	public string Password;
 
-	public User(string ssn, string password)
+	public enum Role
+	{
+		SuperAdmin,
+		Admin,
+		Personnel,
+		Patient,
+
+
+	}
+
+	public Role UserRole;
+	public User(string ssn, string password, Role role)
 	{
 		SSN = ssn;
 		Password = password;
+		UserRole = role;
 	}
+
 }
+
+
