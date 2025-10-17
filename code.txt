@@ -1,4 +1,5 @@
 //Manuel code
+//Program.cs
 /* 
 
 using App;
@@ -61,8 +62,9 @@ while (running)
 */
 
 
-//my code
 
+//my code
+//Program.cs
 /*
 using HealthCare5;
 using System.Diagnostics;
@@ -255,3 +257,44 @@ while (running)
 
 Console.WriteLine("Program closed.");
 */
+
+
+
+*/
+//User.cs
+namespace HealthCare5;
+
+class User
+{
+	public string SSN; //Social Security Number
+	public string Email;
+	public string Password;
+	public string Status;
+
+	public User(string ssn, string email, string password, string status = "Active")
+	{
+		SSN = ssn;
+		Email = email;
+		Password = password;
+		Status = status;
+	}
+}
+*/
+
+
+
+*/
+//Location.cs
+namespace HealthCare5;
+  class Location
+    {
+        public string Name;
+        public string Description;
+
+        public Location(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
+    }
+/*    
