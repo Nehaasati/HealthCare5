@@ -2,11 +2,11 @@
 using System.Diagnostics;
 
 List<User> users = new();
-users.Add(new User("123", "admin@system.com", "1234")); // example active user
 
 List<Location> locations = new();
 User? active_user = null;
 
+users.Add(new User("123", "admin@system.com", "1234")); // example active user
 bool running = true;
 
 while (running)
