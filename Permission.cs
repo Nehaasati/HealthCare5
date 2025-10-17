@@ -1,9 +1,15 @@
 namespace HealthCare5;
 
-enum Permission
+public enum Permission
 {
     AddLocation,
     MangeUser,
-    ApproveUser
+    ApproveUser,
+    ViewLocation,
+    AllPermission,
+    ViewOwnJournal,
+    RequestAppointment,
+    RegisterAppointment,
+    ViewJournal,
 
 }
