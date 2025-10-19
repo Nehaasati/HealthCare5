@@ -1,59 +1,61 @@
 using System;
 using System.Collections.Generic;
 
-namespace HealthCareSystem
+namespace HealthCare5;
+
+public class Permission  // <-- Make the class public
 {
-    public class Admin
+    public enum PatientStatus
     {
-        private string username;
-        private string fullName;
-        private List<AdminPermission> permissions;
+        Pending,
+        Approved,
+        Denied
+    }
 
-        public Admin(string u, string f)
+    public void ApprovePatient(Patient patient)
+    {
+        if (patient.Status == PatientStatus.Pending.ToString())
         {
-            username = u;
-            fullName = f;
-            permissions = new List<AdminPermission>();
+            patient.Status = PatientStatus.Approved.ToString();
+            Console.WriteLine("Approved: " + patient.SSN);
         }
-
-        public string GetUsername()
+        else
         {
-            return username;
-        }
-
-        public string GetFullName()
-        {
-            return fullName;
-        }
-
-        public void GrantPermission(AdminPermission permission)
-        {
-            if (!permissions.Contains(permission))
-            {
-                permissions.Add(permission);
-            }
-        }
-
-        public bool HasPermission(AdminPermission permission)
-        {
-            return permissions.Contains(permission);
-        }
-
-        public List<AdminPermission> GetPermissions()
-        {
-            return permissions;
+            Console.WriteLine("Not pending.");
         }
     }
 
-    public enum AdminPermission
+    public void DenyPatient(Patient patient)
     {
-        HandlePermissionSystem,
-        AssignAdminsToRegions,
-        HandleRegistrations,
-        AddLocations,
-        CreatePersonnelAccounts,
-        ViewPermissionList,
-        AcceptPatientRegistration,
-        DenyPatientRegistration
+        if (patient.Status == PatientStatus.Pending.ToString())
+        {
+            patient.Status = PatientStatus.Denied.ToString();
+            Console.WriteLine("Denied: " + patient.SSN);
+        }
+        else
+        {
+            Console.WriteLine("Not pending.");
+        }
+    }
+
+    public void ShowPendingPatients(List<User> users)
+    {
+        Console.WriteLine("Pending patients:");
+        bool any = false;
+
+        foreach (User u in users)
+        {
+            Patient? p = u as Patient;
+            if (p != null && p.Status == PatientStatus.Pending.ToString())
+            {
+                Console.WriteLine("- " + p.SSN);
+                any = true;
+            }
+        }
+
+        if (!any)
+        {
+            Console.WriteLine("None.");
+        }
     }
 }
