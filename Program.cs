@@ -1,6 +1,4 @@
-﻿
-
-using HealthCare5;
+﻿using HealthCare5;
 using System.Diagnostics;
 
 List<User> users = new();
@@ -10,8 +8,8 @@ Permission permission = new();
 User? active_user = null;
 
 // sample users
-users.Add(new User("111", "1111", User.Role.SuperAdmin));
-users.Add(new User("222", "2222", User.Role.Admin));
+users.Add(new User("111", "1111", User.Role.Admin));
+users.Add(new User("222", "2222", User.Role.Admins));
 users.Add(new User("333", "3333", User.Role.Personnel));
 users.Add(new Patient("444", "4444") { Status = Permission.PatientStatus.Approved.ToString() });
 
@@ -133,7 +131,7 @@ while (running)
         Console.WriteLine();
 
         // ---- SuperAdmin / Admin ----
-        if (active_user.UserRole == User.Role.SuperAdmin || active_user.UserRole == User.Role.Admin)
+        if (active_user.UserRole == User.Role.Admin || active_user.UserRole == User.Role.Admins)
         {
             Console.WriteLine("1. Add location");
             Console.WriteLine("2. View locations");
