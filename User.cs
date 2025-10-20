@@ -7,8 +7,8 @@ class User
 
 	public enum Role
 	{
-		SuperAdmin,
 		Admin,
+		Admins,
 		Personnel,
 		Patient,
 	}
