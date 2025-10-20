@@ -1,90 +1,4 @@
-﻿/*
-Health Care System
-Beskrivning
-Vi är nu i en situation som många av våra län och regioner ofta ser ut att
-hamna i. Det vill säga, vi ska bygga ett nytt system för sjukvården. För att
-göra detta så finns det vissa krav och riktlinjer som vi måste följa. Nedanför
-hittar du en sektion med de kraven.
-
-För att göra detta ordentligt så behöver vi bestämma oss om vad vår centrala
-datastruktur ska vara för kommunikation mellan alla system som vi pratar
-mellan. Så du kommer även finna tekniska rekommendationer och andra förslag i
-en separat sektion nedanför, du kan välja att följa dem eller göra andra val.
-Det viktiga är att systemet följer de user-features som är definierade. Om du
-har frågor eller funderingar, tänk på vad som skulle behövas i ett realistiskt
-scenario, och fråga även utbildaren om hjälp.
-
-Det finns ingen anledning att stressa genom projektet, det är för många
-features definierade för att bygga systememt med den korta tid som vi har på
-oss. Arbeta istället ordentligt med varje del av projektet och dokumentera vad
-ni gör. Så målet är alltså inte att vara feature-complete, det ska istället
-vara stabilt gjort. Det kommer även förmodligen komma flera krav under
-projektets gång så undvig gärna att försöka lösa problem som inte kommit upp
-än, fokusera istället på varje problem för sig, steg för steg.
-
-Krav och specifikationer
-Nedan så kommer du finna en lista på projektets krav, på engelska, och
-tillsammans med de kraven så ska följande generella guidelines följas:
-
-Systemet ska vara designat med sekretess och säkerhet i åtanke, användare ska
-endast ha tillgång till det deras roll behöver, inte mer.
-Krav vid projektstart är följande:
-
-As a user, I need to be able to log in.
-
-As a user, I need to be able to log out.
-
-As a user, I need to be able to request registration as a patient.
-
-As an admin with sufficient permissions, I need to be able to give admins the permission to handle the permission system, in fine granularity.
-
-As an admin with sufficient permissions, I need to be able to assign admins to certain regions.
-
-As an admin with sufficient permissions, I need to be able to give admins the permission to handle registrations.
-
-As an admin with sufficient permissions, I need to be able to give admins the permission to add locations.
-
-As an admin with sufficient permissions, I need to be able to give admins the permission to create accounts for personnel.
-
-As an admin with sufficient permissions, I need to be able to give admins the permission to view a list of who has permission to what.
-
-As an admin with sufficient permissions, I need to be able to add locations.
-
-As an admin with sufficient permissions, I need to be able to accept user registration as patients.
-
-As an admin with sufficient permissions, I need to be able to deny user registration as patients.
-
-As an admin with sufficient permissions, I need to be able to create accounts for personnel.
-
-As an admin with sufficient permissions, I need to be able to view a list of who has permission to what.
-
-As personnel with sufficient permissions, I need to be able to view a patients journal entries.
-
-As personnel with sufficient permissions, I need to be able to mark journal entries with different levels of read permissions.
-
-As personnel with sufficient permissions, I need to be able to register appointments.
-
-As personnel with sufficient permissions, I need to be able to modify appointments.
-
-As personnel with sufficient permissions, I need to be able to approve appointment requests.
-
-As personnel with sufficient permissions, I need to be able to view the schedule of a location.
-
-As a patient, I need to be able to view my own journal.
-
-As a patient, I need to be able to request an appointment.
-
-As a logged in user, I need to be able to view my schedule.
-
-Tekniska rekommendationer
-Använd filsystemet som persistent storage.
-Enums är oftast korrekt lösning för logik istället för strings.
-Gör systemet event-baserat istället för byggt på journaler + andra
-datastrukturer.
-Oavsätt vad er centrala datastruktur är, ha den i en platt lista så den är
-lättillgänglig i all er kod
-*/
-using HealthCare5;
+﻿using HealthCare5;
 using System.Diagnostics;
 
 List<User> users = new();
@@ -111,11 +25,13 @@ while (running)
         Console.WriteLine("2. Register as patient");
         Console.WriteLine("q. Quit");
         Console.Write("Choose: ");
+
         string? choice = Console.ReadLine();
 
         if (choice == "1")
         {
             Console.Clear();
+            
             Console.Write("SSN: ");
             string? username = Console.ReadLine();
             Console.Write("Password: ");
@@ -165,6 +81,7 @@ while (running)
         else if (choice == "2")
         {
             Console.Clear();
+
             Console.WriteLine("=== Patient Registration ===");
             Console.Write("New SSN: ");
             string? newSSN = Console.ReadLine();
