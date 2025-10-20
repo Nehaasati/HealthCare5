@@ -11,8 +11,6 @@ class User
 		Admin,
 		Personnel,
 		Patient,
-
-
 	}
 
 	public Role UserRole;
