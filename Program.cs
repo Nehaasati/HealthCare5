@@ -1,9 +1,12 @@
-﻿using HealthCare5;
+﻿
+
+using HealthCare5;
 using System.Diagnostics;
 
 List<User> users = new();
 List<Location> locations = new();
 Permission permission = new();
+
 User? active_user = null;
 
 // sample users
@@ -152,12 +155,14 @@ while (running)
                 {
                     locations.Add(new Location(name, desc));
                     Console.WriteLine("Location added.");
+
                 }
                 else
                 {
                     Console.WriteLine("Invalid input.");
                 }
                 Console.ReadLine();
+
             }
             else if (choice == "2")
             {
