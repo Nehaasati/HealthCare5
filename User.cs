@@ -27,7 +27,7 @@ public class User
 		List<Permission> permissions = RolePermission.GetPermissions(this.UserRole);
 		foreach (Permission per in permissions)
 		{
-			if (per == permission)
+			if (per == permission|| per == Permission.AllPermission)
 			{
 				return true;
 			}

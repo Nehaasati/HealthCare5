@@ -11,6 +11,14 @@ public class RolePermission
         {
             case User.Role.SuperAdmin:
                 permissions.Add(Permission.AllPermission);
+                permissions.Add(Permission.AddLocation);
+                permissions.Add(Permission.ApproveUser);
+                permissions.Add(Permission.MangeUser);
+                permissions.Add(Permission.RegisterAppointment);
+                permissions.Add(Permission.RequestAppointment);
+                permissions.Add(Permission.ViewJournal);
+                permissions.Add(Permission.ViewLocation);
+                permissions.Add(Permission.ViewOwnJournal);
                 
                 break;
 

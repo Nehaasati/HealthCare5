@@ -68,7 +68,7 @@ while (running)
                 Console.Write("Description: ");
                 string? description = Console.ReadLine();
 
-                if (active_user.UserRole == User.Role.SuperAdmin || active_user.UserRole == User.Role.Admin)
+                if (active_user.HasPermissions(Permission.AddLocation))
                 {
 
                     if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(description))
