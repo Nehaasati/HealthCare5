@@ -11,46 +11,42 @@ class Permission
 
   public void ApprovePatient(Patient patient)
   {
-    if (patient.Status == PatientStatus.Pending.ToString())
+    if (patient.Status.ToString().Contains("Pending"))
     {
-      patient.Status = PatientStatus.Approved.ToString();
-      System.Console.WriteLine("Approved: " + patient.SSN);
+      patient.Status = PatientStatus.Approved;
+      Console.WriteLine("Patient approved: " + patient.SSN);
     }
     else
     {
-      System.Console.WriteLine("Not pending.");
+      Console.WriteLine("Patient not pending.");
     }
   }
 
   public void DenyPatient(Patient patient)
   {
-    if (patient.Status == PatientStatus.Pending.ToString())
+    if (patient.Status.ToString().Contains("Pending"))
     {
-      patient.Status = PatientStatus.Denied.ToString();
-      System.Console.WriteLine("Denied: " + patient.SSN);
+      patient.Status = PatientStatus.Denied;
+      Console.WriteLine("Patient denied: " + patient.SSN);
     }
     else
     {
-      System.Console.WriteLine("Not pending.");
+      Console.WriteLine("Patient not pending.");
     }
   }
 
   public void ShowPendingPatients(List<User> users)
   {
-    System.Console.WriteLine("Pending patients:");
+    Console.WriteLine("Pending patients:");
     bool any = false;
 
     foreach (User u in users)
     {
-      
-      Patient? p = u as Patient;
-
-      if (p != null)
+      if (u is Patient patient)
       {
-        
-        if (p.Status == PatientStatus.Pending.ToString())
+        if (patient.Status.ToString().Contains("Pending"))
         {
-          System.Console.WriteLine("- " + p.SSN);
+          Console.WriteLine("- " + patient.SSN);
           any = true;
         }
       }
@@ -58,8 +54,9 @@ class Permission
 
     if (!any)
     {
-      System.Console.WriteLine("None.");
+      Console.WriteLine("No pending patients.");
     }
   }
 }
+
 
