@@ -94,5 +94,3 @@ Purpose:**
 **Technology Used**
 This project was created as a group effort to model a healthcare management system in the actual world.it emphasizes modularity, security, and maintainability, following best practices in C# development.
 
-•	Prepares system for future features like personnel account creation and region assignments.
-<img width="468" height="635" alt="image" src="https://github.com/user-attachments/assets/fa0adfd4-1f46-47f5-92c0-5c22193dfda0" />
