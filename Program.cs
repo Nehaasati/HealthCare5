@@ -234,7 +234,7 @@ while (running)
                 patientUser.ShowStatus();
                 Console.ReadLine();
             }
-            if(choice == "2")
+            if (choice == "2")
             {
                 patientUser.ShowJournal();
                 Console.ReadLine();
@@ -251,31 +251,144 @@ while (running)
         else if (active_user.UserRole == User.Role.Personnel)
         {
             Console.WriteLine("1. View locations");
-            Console.WriteLine("l. Logout");
+            Console.WriteLine("2. View Schedule");
+            Console.WriteLine("3. Approve Appointment");
+            Console.WriteLine("4. Modify Appointment");
+            Console.WriteLine("5. Register Appointment");
+            Console.WriteLine("6. Journal Entries With Different Read Permission");
+            Console.WriteLine("7. Patients Journal Entries");
+            Console.WriteLine("8. Logout");
             Console.Write("Choose: ");
             string? choice = Console.ReadLine();
 
-            if (choice == "1")
+
+            switch (choice)
             {
-                Console.Clear();
-                Console.WriteLine("All locations:");
-                if (locations.Count == 0)
-                    Console.WriteLine("No locations yet.");
-                else
-                    foreach (var loc in locations)
-                        Console.WriteLine("- " + loc.Name + ": " + loc.Description);
-                Console.ReadLine();
-            }
-            else if (choice == "l")
-            {
-                active_user = null;
+
+                case "1":
+                    if (active_user.HasPermission(Permission.PermissionType.CanViewScheduleLocation))
+                    {
+                        Console.Clear();
+                        Console.WriteLine("All locations:");
+                        if (locations.Count == 0)
+                            Console.WriteLine("No locations yet.");
+                        else
+                            foreach (var loc in locations)
+                                Console.WriteLine("- " + loc.Name + ": " + loc.Description);
+                        Console.WriteLine("Press Enter to continue ");
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        Console.WriteLine("You do not have Permissions to view Locations");
+                        Console.WriteLine("Press Enter to continue");
+                        Console.ReadLine();
+                    }
+                    break;
+
+                case "2":
+
+                    if (active_user.HasPermission(Permission.PermissionType.CanViewScheduleLocation))
+
+                    {
+                        Console.WriteLine("Show Schedule");
+                        Console.ReadLine();
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("You do not have permission to view schedule");
+                        Console.ReadLine();
+                        break;
+                    }
+
+
+                case "3":
+
+                    if (active_user.HasPermission(Permission.PermissionType.CanApproveAppointmentRequests))
+
+                    {
+                        Console.WriteLine("View appointment requests");
+                        Console.ReadLine();
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("You do not have permission to appointment requests");
+                        Console.ReadLine();
+                        break;
+                    }
+                case "4":
+
+                    if (active_user.HasPermission(Permission.PermissionType.CanModifyAppointments))
+
+                    {
+                        Console.WriteLine("View modify appointments");
+                        Console.ReadLine();
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("You do not have permission to modify appointments");
+                        Console.ReadLine();
+                        break;
+                    }
+                case "5":
+
+                    if (active_user.HasPermission(Permission.PermissionType.CanRegisterAppointments))
+
+                    {
+                        Console.WriteLine("View register appointments");
+                        Console.ReadLine();
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("You do not have permission to register appointments");
+                        Console.ReadLine();
+                        break;
+                    }
+                case "6":
+
+                    if (active_user.HasPermission(Permission.PermissionType.CanMarkJournalEntriesWithDifferentReadPermissions))
+
+                    {
+                        Console.WriteLine("View journal entries with different read permissions");
+                        Console.ReadLine();
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("You do not have permission to view these read permissions");
+                        Console.ReadLine();
+                        break;
+                    }
+
+                case "7":
+
+                    if (active_user.HasPermission(Permission.PermissionType.CanViewPatientsJournaEntries))
+
+                    {
+                        Console.WriteLine("View patiens journal entries");
+                        Console.ReadLine();
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("You do not have permission to view patients journal entries");
+                        Console.ReadLine();
+                        break;
+                    }
+
+
+
             }
         }
     }
+
+    Console.WriteLine("Program closed.");
+
 }
-
-Console.WriteLine("Program closed.");
-
 
 
 
