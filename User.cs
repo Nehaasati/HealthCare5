@@ -2,10 +2,12 @@ namespace HealthCare5;
 
 class User
 {
+	// user sercurity number
 	public string SSN;
+	// user password
 	public string Password;
-
-	public enum Role
+	// enum for user role
+   	public enum Role
 	{
 		Admin,
 		Admins,
@@ -14,6 +16,7 @@ class User
 	}
 
 	public Role UserRole;
+	//  create constructor for user 
 	public User(string ssn, string password, Role role)
 	{
 		SSN = ssn;

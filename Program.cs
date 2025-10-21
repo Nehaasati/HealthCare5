@@ -1,26 +1,31 @@
 ﻿using HealthCare5;
 using System.Diagnostics;
-
+// Create lists to store users and locations 
 List<User> users = new();
 List<Location> locations = new();
+// Create a Permission object for handling approvals
 Permission permission = new();
 
 User? active_user = null;
 
 // sample users
+// Add some sample users
 users.Add(new User("111", "1111", User.Role.Admin));
 users.Add(new User("222", "2222", User.Role.Admins));
 users.Add(new User("333", "3333", User.Role.Personnel));
 users.Add(new Patient("444", "4444") { Status = Permission.PatientStatus.Approved });
 
+// Keep program running until user quits
 bool running = true;
 
 while (running)
 {
+    // clear console
     Console.Clear();
-
+    // If no user is logged in
     if (active_user == null)
     {
+        // main menu
         Console.WriteLine("=== HealthCare System ===");
         Console.WriteLine("1. Login");
         Console.WriteLine("2. Register as patient");
@@ -28,7 +33,7 @@ while (running)
         Console.Write("Choose: ");
 
         string? choice = Console.ReadLine();
-
+        //Login
         if (choice == "1")
         {
             Console.Clear();
@@ -39,13 +44,14 @@ while (running)
 
             Debug.Assert(username != null);
             Debug.Assert(password != null);
-
+            // Track if user found
             bool found = false;
-
+            // Check user list for matching SSN and password
             foreach (User user in users)
             {
                 if (user.SSN == username && user.Password == password)
                 {
+                    //check registration status
                     if (user is Patient pat)
                     {
                         if (pat.Status == Permission.PatientStatus.Pending)
@@ -63,7 +69,7 @@ while (running)
                             break;
                         }
                     }
-
+                    // Login successful
                     active_user = user;
                     Console.WriteLine("Login successful.");
                     Console.ReadLine();
@@ -71,6 +77,7 @@ while (running)
                     break;
                 }
             }
+            // If no match found
 
             if (!found)
             {
@@ -78,6 +85,7 @@ while (running)
                 Console.ReadLine();
             }
         }
+        // REGISTER AS PATIENT 
         else if (choice == "2")
         {
             Console.Clear();
@@ -94,7 +102,7 @@ while (running)
                 Console.ReadLine();
                 continue;
             }
-
+            // Check if SSN already exists
             bool exists = false;
             foreach (User u in users)
             {
@@ -110,6 +118,7 @@ while (running)
                 Console.WriteLine("SSN already exists.");
             }
             else
+            // Create and add new patient
             {
                 Patient newPatient = new(newSSN, newPassword);
                 users.Add(newPatient);
@@ -118,6 +127,7 @@ while (running)
 
             Console.ReadLine();
         }
+       //quite
         else if (choice == "q")
         {
             running = false;
@@ -139,7 +149,7 @@ while (running)
             Console.WriteLine("l. Logout");
             Console.Write("Choose: ");
             string? choice = Console.ReadLine();
-
+            // Add a new location
             if (choice == "1")
             {
                 Console.Clear();
@@ -161,6 +171,7 @@ while (running)
                 Console.ReadLine();
 
             }
+            // View all locations
             else if (choice == "2")
             {
                 Console.Clear();
@@ -172,12 +183,14 @@ while (running)
                         Console.WriteLine("- " + loc.Name + ": " + loc.Description);
                 Console.ReadLine();
             }
+            // Show pending patients
             else if (choice == "3")
             {
                 Console.Clear();
                 permission.ShowPendingPatients(users);
                 Console.ReadLine();
             }
+            // Approve or deny patient registration
             else if (choice == "4")
             {
                 Console.Clear();
@@ -219,7 +232,7 @@ while (running)
             }
         }
 
-        // ---- Patient ----
+        // Patient 
         else if (active_user.UserRole == User.Role.Patient)
         {
             Patient patientUser = (Patient)active_user;
@@ -228,12 +241,13 @@ while (running)
             Console.WriteLine("l. Logout");
             Console.Write("Choose: ");
             string? choice = Console.ReadLine();
-
+            // Show current patient status
             if (choice == "1")
             {
                 patientUser.ShowStatus();
                 Console.ReadLine();
             }
+            // Show patient journal
             if(choice == "2")
             {
                 patientUser.ShowJournal();
@@ -247,13 +261,15 @@ while (running)
 
 
 
-        // ---- Personnel ----
+        // Personnel
         else if (active_user.UserRole == User.Role.Personnel)
         {
             Console.WriteLine("1. View locations");
             Console.WriteLine("l. Logout");
             Console.Write("Choose: ");
             string? choice = Console.ReadLine();
+
+            // View all available locations
 
             if (choice == "1")
             {
