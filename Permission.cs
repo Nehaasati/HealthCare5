@@ -9,6 +9,20 @@ class Permission
     Denied
   }
 
+
+  public enum PermissionType
+  {
+    CanViewScheduleLocation,
+    CanApproveAppointmentRequests,
+    CanModifyAppointments,
+    CanRegisterAppointments,
+    CanMarkJournalEntriesWithDifferentReadPermissions,
+    CanViewPatientsJournaEntries,
+
+
+  }
+
+
   public void ApprovePatient(Patient patient)
   {
     if (patient.Status.ToString().Contains("Pending"))
