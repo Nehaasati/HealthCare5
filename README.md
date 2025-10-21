@@ -46,7 +46,9 @@ Allows new users to register as patients. New registrations are initially Pendin
 **Why important:**
 •	Implements workflow for patient onboarding.
 •	Ensures patients cannot access system functions until approved.
-•
+
+
+
 **Step 3: Admin Actions
 Purpose:**
 Admins manage locations, approve/deny patients, and (in future versions) manage permissions for other admins and personnel accounts.
