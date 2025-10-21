@@ -11,7 +11,7 @@ User? active_user = null;
 users.Add(new User("111", "1111", User.Role.Admin));
 users.Add(new User("222", "2222", User.Role.Admins));
 users.Add(new User("333", "3333", User.Role.Personnel));
-users.Add(new Patient("444", "4444") { Status = Permission.PatientStatus.Approved.ToString() });
+users.Add(new Patient("444", "4444") { Status = Permission.PatientStatus.Approved });
 
 bool running = true;
 
@@ -32,7 +32,6 @@ while (running)
         if (choice == "1")
         {
             Console.Clear();
-            
             Console.Write("SSN: ");
             string? username = Console.ReadLine();
             Console.Write("Password: ");
@@ -49,14 +48,14 @@ while (running)
                 {
                     if (user is Patient pat)
                     {
-                        if (pat.Status == Permission.PatientStatus.Pending.ToString())
+                        if (pat.Status == Permission.PatientStatus.Pending)
                         {
                             Console.WriteLine("Registration pending.");
                             Console.ReadLine();
                             found = true;
                             break;
                         }
-                        else if (pat.Status == Permission.PatientStatus.Denied.ToString())
+                        else if (pat.Status == Permission.PatientStatus.Denied)
                         {
                             Console.WriteLine("Registration denied.");
                             Console.ReadLine();
