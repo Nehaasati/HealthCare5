@@ -4,7 +4,8 @@ class Patient : User
 {
   //Add status feild
   public Permission.PatientStatus Status; // enum, not string
-
+                                          // Add a list to store journal entries
+  public List<string> JournalEntries = new List<string>();
   public Patient(string ssn, string password)
       : base(ssn, password, Role.Patient)
   {
@@ -16,7 +17,7 @@ class Patient : User
     System.Console.WriteLine("Registration request sent.");
   }
 
-//show current status 
+  //show current status 
   public void ShowStatus()
   {
     System.Console.WriteLine("Status: " + Status);
@@ -24,8 +25,18 @@ class Patient : User
 
   public void ShowJournal()
   {
-    System.Console.WriteLine("Journal is empty.");
+    Console.WriteLine("Journal for patient {SSN}:");
+    if (JournalEntries.Count == 0)
+    {
+      Console.WriteLine("No journal entries.");
+    }
+    else
+    {
+      foreach (string entry in JournalEntries)
+      {
+        Console.WriteLine("- " + entry);
+      }
+    }
   }
+
 }
-
-

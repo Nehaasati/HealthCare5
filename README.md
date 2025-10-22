@@ -1,5 +1,10 @@
 HealthCare5
 Group Project:
+
+Neha asati             31asatineha@gmail.com
+Pedram Basimfar        Pedram.basim@gmail.com
+Arbaz Shah             arbazhussain067@gmail.com
+Kifle Haile Selassie    kifle.uni@gmail.com 
 Neha asati          31asatineha@gmail.com
 Pedram Basimfar     Pedram.basim@gmail.com
 Arbaz Shah          arbazhussain067@gmail.com
@@ -93,4 +98,5 @@ Purpose:**
 
 **Technology Used**
 This project was created as a group effort to model a healthcare management system in the actual world.it emphasizes modularity, security, and maintainability, following best practices in C# development.
+
 
