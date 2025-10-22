@@ -1,4 +1,4 @@
-﻿using HealthCare5;
+﻿﻿using HealthCare5;
 using System.Diagnostics;
 
 // Create lists to store users and locations 
@@ -341,10 +341,98 @@ while (running)
 
                 case "6":
                     if (active_user.HasPermission(Permission.PermissionType.CanRegisterAppointments))
-                        Console.WriteLine("View register appointments");
+                  {
+                     Console.Clear();
+                     Console.WriteLine("=== Register New Appointment ===");
+
+                      if (locations.Count == 0)
+                     {
+                       Console.WriteLine("No locations available.");
+                       Console.ReadLine();
+                       }
+                     else
+                       {
+                        // Show locations with numbers: 1, 2, 3...
+                        Console.WriteLine("Available locations:");
+                        int number = 1;
+                        foreach (Location loc in locations)
+                     {
+                      Console.WriteLine(number + ". " + loc.Name + " - " + loc.Description);
+                      number++;
+                      }
+
+                     Console.Write("Enter location number (e.g. 1): ");
+                     string? locInput = Console.ReadLine();
+
+                     // Find selected location using simple loop
+                      Location? selectedLocation = null;
+                      int counter = 1;
+                       foreach (Location loc in locations)
+                     {
+                       if (locInput == counter.ToString())
+                     {
+                        selectedLocation = loc;
+                        break;
+                        }
+                        counter++;
+                      }
+
+                     if (selectedLocation == null)
+                      {
+                        Console.WriteLine("Invalid location number.");
+                        Console.ReadLine();
+                      }
+                     else
+                     {
+                     // Get appointment details
+                     Console.Write("Patient SSN: ");
+                     string? patientSSN = Console.ReadLine();
+
+                    Console.Write("Date (yyyy-MM-dd): ");
+                    string? dateStr = Console.ReadLine();
+
+                     Console.Write("Time (HH:mm): ");
+                    string? timeStr = Console.ReadLine();
+
+                    Console.Write("Reason: ");
+                    string? reason = Console.ReadLine();
+
+                    // Check if any field is missing
+                    if (string.IsNullOrEmpty(patientSSN) ||
+                       string.IsNullOrEmpty(dateStr) ||
+                       string.IsNullOrEmpty(timeStr) ||
+                       string.IsNullOrEmpty(reason))
+                    {
+                      Console.WriteLine("All fields are required.");
+                      Console.ReadLine();
+                    }
                     else
+                    { 
+                       // Try to create the appointment
+                      try
+                      {
+                          string fullDateTime = dateStr + " " + timeStr;
+                          DateTime apptTime = DateTime.Parse(fullDateTime);
+
+                          Appointment newAppt = new Appointment(apptTime, patientSSN, reason);
+                          selectedLocation.AddAppointment(newAppt);
+
+                          Console.WriteLine("✅ Appointment registered successfully!");
+                       }
+                      catch
+                      {
+                          Console.WriteLine("❌ Invalid date or time. Use format: yyyy-MM-dd and HH:mm");
+                      }
+                       Console.ReadLine();
+                         }
+                        }
+                    }
+                    }
+                   else
+                    {
                         Console.WriteLine("You do not have permission to register appointments");
-                    Console.ReadLine();
+                       Console.ReadLine();
+                    }
                     break;
 
                 case "7":
@@ -412,3 +500,7 @@ bool ShowLocationSchedule(List<Location> locations)
 }
 
 Console.WriteLine("Program closed.");
+
+
+
+
