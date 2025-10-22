@@ -19,7 +19,7 @@ Patient patient555 = new Patient("555", "5555") { Status = Permission.PatientSta
 patient555.JournalEntries.Add("Fever on Oct 20.");
 users.Add(patient555);
 
-locations.Add(new Location("bvc", "LUNd"));
+locations.Add(new Location("BVC", "LUND"));
 locations[0].Appointment.Add(new Appointment(new DateTime(2025, 10, 22, 9, 0, 0), "333", "General checkup"));
 locations[0].Appointment.Add(new Appointment(new DateTime(2025, 10, 22, 10, 30, 0), "888", "Dental cleaning"));
 
