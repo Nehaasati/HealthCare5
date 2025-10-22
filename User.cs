@@ -4,19 +4,23 @@ namespace HealthCare5;
 
 class User
 {
+	// user sercurity number
 	public string SSN;
-	public string Password;
-	public Role UserRole;
-	public List<Permission.PermissionType> Permissions;
+
+	public string Password;   // user password
+
+	public enum Role // enum for user role
 
 
-	public enum Role
 	{
 		Admin,
 		Admins,
 		Personnel,
 		Patient,
 	}
+
+	public Role UserRole;//  create constructor for user 
+	public List<Permission.PermissionType> Permissions;
 
 
 
