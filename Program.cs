@@ -11,11 +11,15 @@ User? active_user = null;
 // sample users
 // Add some sample users
 users.Add(new User("111", "1111", User.Role.Admin));
-users.Add(new User("222", "2222", User.Role.Admins));
+users.Add(new User("222", "2222", User.Role.Admin));
 users.Add(new User("333", "3333", User.Role.Personnel));
+users.Add(new User("888", "8888", User.Role.Personnel));
 users.Add(new Patient("444", "4444") { Status = Permission.PatientStatus.Approved });
+Patient patient555 = new Patient("555", "5555") { Status = Permission.PatientStatus.Approved };
+patient555.JournalEntries.Add("Fever on Oct 20.");
+users.Add(patient555);
 
-locations.Add(new Location("bvc", "LUNd"));
+locations.Add(new Location("BVC", "LUND"));
 locations[0].Appointment.Add(new Appointment(new DateTime(2025, 10, 22, 9, 0, 0), "333", "General checkup"));
 locations[0].Appointment.Add(new Appointment(new DateTime(2025, 10, 22, 10, 30, 0), "888", "Dental cleaning"));
 
@@ -278,6 +282,7 @@ while (running)
             Console.WriteLine("1. View locations");
             Console.WriteLine("l. Logout");
             Console.WriteLine("2. View schedule for a location");
+            Console.WriteLine("3. View patient journal");
             Console.Write("Choose: ");
             string? choice = Console.ReadLine();
 
@@ -299,7 +304,48 @@ while (running)
 
                 ShowLocationSchedule(locations);
             }
+            else if (choice == "3")
+            {
+              Console.Clear();
+              Console.WriteLine("=== View Patient Journal ===");
+              Console.Write("Enter patient SSN: ");
+              string? ssn = Console.ReadLine();
 
+             if (string.IsNullOrEmpty(ssn))
+             {
+               Console.WriteLine("Invalid SSN.");
+               Console.ReadLine();
+               continue;
+              }
+
+             Patient? targetPatient = null;
+             foreach (User u in users)
+             {
+               if (u is Patient p && p.SSN == ssn)
+              {
+                targetPatient = p;
+                break;
+              }
+             }
+
+             if (targetPatient == null)
+             {
+               Console.WriteLine("Patient not found.");
+             }
+             else
+             {
+              // Only show if patient is Approved 
+             if (targetPatient.Status != Permission.PatientStatus.Approved)
+              {
+                 Console.WriteLine("Patient is not approved. Journal access denied.");
+             }
+             else
+             {
+                 targetPatient.ShowJournal();
+              }
+            }
+            Console.ReadLine();
+           }
             else if (choice == "l")
             {
                 active_user = null;
