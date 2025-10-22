@@ -176,7 +176,7 @@ while (running)
                 if (locations.Count == 0)
                     Console.WriteLine("No locations yet.");
                 else
-                    foreach (var loc in locations)
+                    foreach (Location loc in locations)
                         Console.WriteLine("- " + loc.Name + ": " + loc.Description);
                 Console.ReadLine();
             }
@@ -337,7 +337,34 @@ while (running)
                     else
                         Console.WriteLine("You do not have permission to modify appointments");
                     Console.ReadLine();
+                    break;    
+
+                /*case "5":
+
+                    if (active_user.HasPermission(Permission.PermissionType.CanModifyAppointments))
+                    {
+                        //Console.Clear();
+                       // Console.WriteLine("Modify Appointment");
+
+                        //all apoointment 
+                       // List<Appointment> allAppointments = new List<Appointment>();
+                       // List<Location> ownerLocations = new List<Location>();
+
+
+
+
+                     else
+                        Console.WriteLine("You do not have permission to modify appointments");
+                    Console.ReadLine();
                     break;
+
+
+
+                    
+                        
+                    }*/
+                
+
 
                 case "6":
                     if (active_user.HasPermission(Permission.PermissionType.CanRegisterAppointments))
@@ -492,7 +519,7 @@ bool ShowLocationSchedule(List<Location> locations)
     if (selected.Appointment.Count == 0)
         Console.WriteLine("No appointments scheduled.");
     else
-        foreach (var a in selected.Appointment)
+        foreach (Appointment  a in selected.Appointment)
             Console.WriteLine("- " + a.GetInfo());
 
     Console.ReadLine();
