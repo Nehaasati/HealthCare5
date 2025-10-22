@@ -6,7 +6,7 @@ Arbaz Shah          arbazhussain067@gmail.com
 Kifle Haile Selassie kifle.uni@gmail.com
 
 **Project Description – Health Care System**
-**By Neha, Arbaz, Pedram, and Kiffel**
+**By Neha, Arbaz, Pedram, and Kifle**
 
 The Health Care System project is a comprehensive management platform designed to simplify essential healthcare functions like patient registration, appointment scheduling, role-based access control for various user types, including administrators, healthcare personnel, and patients. 
 
