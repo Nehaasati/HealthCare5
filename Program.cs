@@ -283,7 +283,7 @@ while (running)
                         if (locations.Count == 0)
                             Console.WriteLine("No locations yet.");
                         else
-                            foreach (var loc in locations)
+                            foreach (Location loc in locations)
                                 Console.WriteLine("- " + loc.Name + ": " + loc.Description);
                         Console.WriteLine("Press Enter to continue");
                         Console.ReadLine();
@@ -306,22 +306,45 @@ while (running)
                     break;
 
                 case "3": // Ändrat: Patientjournal fixad
+                
                     Console.Clear();
                     Console.WriteLine("=== View Patient Journal ===");
                     Console.Write("Enter patient SSN: ");
                     string? ssn3 = Console.ReadLine();
 
-                    Patient? targetPatient = users.Find(u => u is Patient p && p.SSN == ssn3) as Patient;
+                    // Step 1: Search for the patient
+                  Patient? targetPatient = null;
+    
+                  foreach (User user in users)
+                 {
+                 if (user is Patient patient)
+                    {
+                 if (patient.SSN == ssn3)
+                 {
+                 targetPatient = patient;
+                 break;
+                  }
+                   }
+                 }
 
-                    if (targetPatient == null)
-                        Console.WriteLine("Patient not found.");
-                    else if (targetPatient.Status != Permission.PatientStatus.Approved)
-                        Console.WriteLine("Patient is not approved. Journal access denied.");
-                    else
-                        targetPatient.ShowJournal();
+                  // Step 2: Check if patient was found
+                 if (targetPatient == null)
+                {
+                   Console.WriteLine("Patient not found.");
+                 }
+                 // Step 3: Check if patient is approved
+                 else if (targetPatient.Status != Permission.PatientStatus.Approved)
+                {
+                 Console.WriteLine("Patient is not approved. Journal access denied.");
+                }
+                 // Step 4: Show the journal
+                else
+                {
+                targetPatient.ShowJournal();
+                }
 
-                    Console.ReadLine();
-                    break;
+                Console.ReadLine();
+                break;
 
                 case "4":
                     if (active_user.HasPermission(Permission.PermissionType.CanApproveAppointmentRequests))
@@ -490,42 +513,90 @@ while (running)
 bool ShowLocationSchedule(List<Location> locations)
 {
     Console.Clear();
-
-    if (locations.Count == 0)
+    
+    // Do we have any locations?
+    int numberOfLocations = locations.Count;
+    
+    if (numberOfLocations == 0)
     {
-        Console.WriteLine("No locations yet.");
+        Console.WriteLine("No locations available.");
         Console.ReadLine();
         return false;
     }
-
+    
+    // Show all locations
     Console.WriteLine("Locations:");
-    for (int i = 0; i < locations.Count; i++)
-        Console.WriteLine((i + 1) + ". " + locations[i].Name + " - " + locations[i].Description);
-
+    
+    int counter = 1;
+    for (int i = 0; i < numberOfLocations; i++)
+    {
+        Location loc = locations[i];
+        Console.WriteLine(counter + ". " + loc.Name + " - " + loc.Description);
+        counter = counter + 1;
+    }
+    
+    // Ask which location they want
     Console.Write("Enter location number: ");
-    string choice = Console.ReadLine() ?? "";
-
-    if (!int.TryParse(choice, out int number) || number < 1 || number > locations.Count)
+    string userInput = Console.ReadLine();
+    
+    if (userInput == null)
+    {
+        userInput = "";
+    }
+    
+    // Convert text to number
+    int selectedNumber = 0;
+    bool isNumber = int.TryParse(userInput, out selectedNumber);
+    
+    // Is it a valid number?
+    bool isValid = true;
+    
+    if (isNumber == false)
+    {
+        isValid = false;
+    }
+    else if (selectedNumber < 1)
+    {
+        isValid = false;
+    }
+    else if (selectedNumber > numberOfLocations)
+    {
+        isValid = false;
+    }
+    
+    if (isValid == false)
     {
         Console.WriteLine("Invalid location number.");
         Console.ReadLine();
         return false;
     }
-
-    Location selected = locations[number - 1];
+    
+    // Get the location they chose
+    int index = selectedNumber - 1;
+    Location chosenLocation = locations[index];
+    
+    // Show the schedule
     Console.Clear();
-    Console.WriteLine("Schedule for: " + selected.Name + " - " + selected.Description);
-
-    if (selected.Appointment.Count == 0)
+    Console.WriteLine("Schedule for: " + chosenLocation.Name + " - " + chosenLocation.Description);
+    
+    int appointmentCount = chosenLocation.Appointment.Count;
+    
+    if (appointmentCount == 0)
+    {
         Console.WriteLine("No appointments scheduled.");
+    }
     else
-        foreach (Appointment  a in selected.Appointment)
-            Console.WriteLine("- " + a.GetInfo());
-
+    {
+        for (int i = 0; i < appointmentCount; i++)
+        {
+            Appointment appt = chosenLocation.Appointment[i];
+            Console.WriteLine("- " + appt.GetInfo());
+        }
+    }
+    
     Console.ReadLine();
     return true;
 }
-
 Console.WriteLine("Program closed.");
 
 
