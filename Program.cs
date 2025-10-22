@@ -16,7 +16,8 @@ users.Add(new User("333", "3333", User.Role.Personnel));
 users.Add(new User("888", "8888", User.Role.Personnel));
 users.Add(new Patient("444", "4444") { Status = Permission.PatientStatus.Approved });
 Patient patient555 = new Patient("555", "5555") { Status = Permission.PatientStatus.Approved };
-patient555.JournalEntries.Add("Fever on Oct 20.");
+patient555.AddJournalEntry("Fever on Oct 20.", new DateTime(2025, 10, 20), Permission.ReadLevel.PersonnelOnly);
+patient555.AddJournalEntry("Hearing test result normal", new DateTime(2025, 10, 20), Permission.ReadLevel.All);
 users.Add(patient555);
 
 locations.Add(new Location("BVC", "LUND"));
@@ -248,7 +249,7 @@ while (running)
                     Console.ReadLine();
                     break;
                 case "2":
-                    patientUser.ShowJournal();
+                    patientUser.ShowJournal(patientUser);
                     Console.ReadLine();
                     break;
                 case "l":
@@ -318,7 +319,7 @@ while (running)
                     else if (targetPatient.Status != Permission.PatientStatus.Approved)
                         Console.WriteLine("Patient is not approved. Journal access denied.");
                     else
-                        targetPatient.ShowJournal();
+                        targetPatient.ShowJournal(active_user);
 
                     Console.ReadLine();
                     break;
@@ -347,21 +348,74 @@ while (running)
                     Console.ReadLine();
                     break;
 
-                case "7":
+                case "7": // Journal Entries With Different Read Permission
                     if (active_user.HasPermission(Permission.PermissionType.CanMarkJournalEntriesWithDifferentReadPermissions))
-                        Console.WriteLine("View journal entries with different read permissions");
+                    {
+                        Console.Clear();
+                        Console.WriteLine("=== View Patient Journal ===");
+                        Console.Write("Enter patient SSN: ");
+                        string? patientSSN = Console.ReadLine();
+
+
+                        Patient? selectedpatient = users.Find(u => u is Patient p && p.SSN == patientSSN) as Patient;
+
+                        if (selectedpatient == null)
+                        {
+                            Console.WriteLine("Patient not found.");
+                        }
+                        else if (selectedpatient.Status != Permission.PatientStatus.Approved)
+                        {
+                            Console.WriteLine("Patient is not approved. Journal access denied.");
+                        }
+                        else
+                        {
+
+                            selectedpatient.ShowJournal(active_user);
+                        }
+
+                        Console.ReadLine();
+                    }
                     else
+                    {
                         Console.WriteLine("You do not have permission to view these entries");
-                    Console.ReadLine();
+                        Console.ReadLine();
+                    }
                     break;
 
-                case "8":
+                case "8": // Patients Journal Entries
                     if (active_user.HasPermission(Permission.PermissionType.CanViewPatientsJournaEntries))
-                        Console.WriteLine("View patients journal entries");
+                    {
+                        Console.Clear();
+                        Console.WriteLine("=== View Patient Journal (All entries you are allowed to see) ===");
+                        Console.Write("Enter patient SSN: ");
+                        string? patientSSN = Console.ReadLine();
+
+
+                        Patient? selectedPatient = users.Find(u => u is Patient p && p.SSN == patientSSN) as Patient;
+
+                        if (selectedPatient == null)
+                        {
+                            Console.WriteLine("Patient not found.");
+                        }
+                        else if (selectedPatient.Status != Permission.PatientStatus.Approved)
+                        {
+                            Console.WriteLine("Patient is not approved. Journal access denied.");
+                        }
+                        else
+                        {
+
+                            selectedPatient.ShowJournal(active_user);
+                        }
+
+                        Console.ReadLine();
+                    }
                     else
+                    {
                         Console.WriteLine("You do not have permission to view patients journal entries");
-                    Console.ReadLine();
+                        Console.ReadLine();
+                    }
                     break;
+
 
                 case "l":
                     active_user = null;
