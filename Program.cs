@@ -11,7 +11,7 @@ User? active_user = null;
 
 // sample users
 users.Add(new User("111", "1111", User.Role.Admin));
-users.Add(new User("222", "2222", User.Role.Admin));
+users.Add(new User("222", "2222", User.Role.Admins));
 users.Add(new User("333", "3333", User.Role.Personnel));
 users.Add(new User("888", "8888", User.Role.Personnel));
 users.Add(new Patient("444", "4444") { Status = Permission.PatientStatus.Approved });
