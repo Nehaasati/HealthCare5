@@ -11,7 +11,23 @@ class Permission
     Denied   // patient is deny
   }
 
+
+  public enum PermissionType
+  {
+    CanViewScheduleLocation,
+    CanApproveAppointmentRequests,
+    CanModifyAppointments,
+    CanRegisterAppointments,
+    CanMarkJournalEntriesWithDifferentReadPermissions,
+    CanViewPatientsJournaEntries,
+
+
+  }
+
+
+
   // Approve Patient if status is pending
+  
   public void ApprovePatient(Patient patient)
   {
     if (patient.Status.ToString().Contains("Pending"))

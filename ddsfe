@@ -1,0 +1,269 @@
+[1mdiff --git a/Permission.cs b/Permission.cs[m
+[1mindex 8bbbec5..993987e 100644[m
+[1m--- a/Permission.cs[m
+[1m+++ b/Permission.cs[m
+[36m@@ -9,6 +9,20 @@[m [mclass Permission[m
+     Denied[m
+   }[m
+ [m
+[32m+[m
+[32m+[m[32m  public enum PermissionType[m
+[32m+[m[32m  {[m
+[32m+[m[32m    CanViewScheduleLocation,[m
+[32m+[m[32m    CanApproveAppointmentRequests,[m
+[32m+[m[32m    CanModifyAppointments,[m
+[32m+[m[32m    CanRegisterAppointments,[m
+[32m+[m[32m    CanMarkJournalEntriesWithDifferentReadPermissions,[m
+[32m+[m[32m    CanViewPatientsJournaEntries,[m
+[32m+[m
+[32m+[m
+[32m+[m[32m  }[m
+[32m+[m[41m [m
+[32m+[m[41m   [m
+   public void ApprovePatient(Patient patient)[m
+   {[m
+     if (patient.Status.ToString().Contains("Pending"))[m
+[1mdiff --git a/Program.cs b/Program.cs[m
+[1mindex dd3323d..629cd48 100644[m
+[1m--- a/Program.cs[m
+[1m+++ b/Program.cs[m
+[36m@@ -234,7 +234,7 @@[m [mwhile (running)[m
+                 patientUser.ShowStatus();[m
+                 Console.ReadLine();[m
+             }[m
+[31m-            if(choice == "2")[m
+[32m+[m[32m            if (choice == "2")[m
+             {[m
+                 patientUser.ShowJournal();[m
+                 Console.ReadLine();[m
+[36m@@ -251,31 +251,144 @@[m [mwhile (running)[m
+         else if (active_user.UserRole == User.Role.Personnel)[m
+         {[m
+             Console.WriteLine("1. View locations");[m
+[31m-            Console.WriteLine("l. Logout");[m
+[32m+[m[32m            Console.WriteLine("2. View Schedule");[m
+[32m+[m[32m            Console.WriteLine("3. Approve Appointment");[m
+[32m+[m[32m            Console.WriteLine("4. Modify Appointment");[m
+[32m+[m[32m            Console.WriteLine("5. Register Appointment");[m
+[32m+[m[32m            Console.WriteLine("6. Journal Entries With Different Read Permission");[m
+[32m+[m[32m            Console.WriteLine("7. Patients Journal Entries");[m
+[32m+[m[32m            Console.WriteLine("8. Logout");[m
+             Console.Write("Choose: ");[m
+             string? choice = Console.ReadLine();[m
+ [m
+[31m-            if (choice == "1")[m
+[31m-            {[m
+[31m-                Console.Clear();[m
+[31m-                Console.WriteLine("All locations:");[m
+[31m-                if (locations.Count == 0)[m
+[31m-                    Console.WriteLine("No locations yet.");[m
+[31m-                else[m
+[31m-                    foreach (var loc in locations)[m
+[31m-                        Console.WriteLine("- " + loc.Name + ": " + loc.Description);[m
+[31m-                Console.ReadLine();[m
+[31m-            }[m
+[31m-            else if (choice == "l")[m
+[32m+[m
+[32m+[m[32m            switch (choice)[m
+             {[m
+[31m-                active_user = null;[m
+[32m+[m
+[32m+[m[32m                case "1":[m
+[32m+[m[32m                    if (active_user.HasPermission(Permission.PermissionType.CanViewScheduleLocation))[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.Clear();[m
+[32m+[m[32m                        Console.WriteLine("All locations:");[m
+[32m+[m[32m                        if (locations.Count == 0)[m
+[32m+[m[32m                            Console.WriteLine("No locations yet.");[m
+[32m+[m[32m                        else[m
+[32m+[m[32m                            foreach (var loc in locations)[m
+[32m+[m[32m                                Console.WriteLine("- " + loc.Name + ": " + loc.Description);[m
+[32m+[m[32m                        Console.WriteLine("Press Enter to continue ");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                    else[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("You do not have Permissions to view Locations");[m
+[32m+[m[32m                        Console.WriteLine("Press Enter to continue");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                    break;[m
+[32m+[m
+[32m+[m[32m                case "2":[m
+[32m+[m
+[32m+[m[32m                    if (active_user.HasPermission(Permission.PermissionType.CanViewScheduleLocation))[m
+[32m+[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("Show Schedule");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                        break;[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                    else[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("You do not have permission to view schedule");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                        break;[m
+[32m+[m[32m                    }[m
+[32m+[m
+[32m+[m
+[32m+[m[32m                case "3":[m
+[32m+[m
+[32m+[m[32m                    if (active_user.HasPermission(Permission.PermissionType.CanApproveAppointmentRequests))[m
+[32m+[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("View appointment requests");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                        break;[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                    else[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("You do not have permission to appointment requests");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                        break;[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                case "4":[m
+[32m+[m
+[32m+[m[32m                    if (active_user.HasPermission(Permission.PermissionType.CanModifyAppointments))[m
+[32m+[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("View modify appointments");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                        break;[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                    else[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("You do not have permission to modify appointments");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                        break;[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                case "5":[m
+[32m+[m
+[32m+[m[32m                    if (active_user.HasPermission(Permission.PermissionType.CanRegisterAppointments))[m
+[32m+[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("View register appointments");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                        break;[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                    else[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("You do not have permission to register appointments");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                        break;[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                case "6":[m
+[32m+[m
+[32m+[m[32m                    if (active_user.HasPermission(Permission.PermissionType.CanMarkJournalEntriesWithDifferentReadPermissions))[m
+[32m+[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("View journal entries with different read permissions");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                        break;[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                    else[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("You do not have permission to view these read permissions");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                        break;[m
+[32m+[m[32m                    }[m
+[32m+[m
+[32m+[m[32m                case "7":[m
+[32m+[m
+[32m+[m[32m                    if (active_user.HasPermission(Permission.PermissionType.CanViewPatientsJournaEntries))[m
+[32m+[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("View patiens journal entries");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                        break;[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                    else[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        Console.WriteLine("You do not have permission to view patients journal entries");[m
+[32m+[m[32m                        Console.ReadLine();[m
+[32m+[m[32m                        break;[m
+[32m+[m[32m                    }[m
+[32m+[m
+[32m+[m
+[32m+[m
+             }[m
+         }[m
+     }[m
+[31m-}[m
+ [m
+[31m-Console.WriteLine("Program closed.");[m
+[32m+[m[32m    Console.WriteLine("Program closed.");[m
+ [m
+[32m+[m[32m}[m
+ [m
+ [m
+ [m
+[1mdiff --git a/User.cs b/User.cs[m
+[1mindex eee5288..771f21f 100644[m
+[1m--- a/User.cs[m
+[1m+++ b/User.cs[m
+[36m@@ -1,9 +1,14 @@[m
+[32m+[m[32musing System.Security;[m
+[32m+[m
+ namespace HealthCare5;[m
+ [m
+ class User[m
+ {[m
+ 	public string SSN;[m
+ 	public string Password;[m
+[32m+[m	[32mpublic Role UserRole;[m
+[32m+[m	[32mpublic List<Permission.PermissionType> Permissions;[m
+[32m+[m
+ [m
+ 	public enum Role[m
+ 	{[m
+[36m@@ -13,14 +18,48 @@[m [mclass User[m
+ 		Patient,[m
+ 	}[m
+ [m
+[31m-	public Role UserRole;[m
+[32m+[m
+[32m+[m
+ 	public User(string ssn, string password, Role role)[m
+ 	{[m
+ 		SSN = ssn;[m
+ 		Password = password;[m
+ 		UserRole = role;[m
+[32m+[m		[32mPermissions = new List<Permission.PermissionType>();[m
+[32m+[m
+[32m+[m		[32mif (UserRole == Role.Personnel)[m
+[32m+[m
+[32m+[m		[32m{[m
+[32m+[m			[32mPermissions.Add(Permission.PermissionType.CanViewScheduleLocation);[m
+[32m+[m			[32mPermissions.Add(Permission.PermissionType.CanApproveAppointmentRequests);[m
+[32m+[m			[32mPermissions.Add(Permission.PermissionType.CanModifyAppointments);[m
+[32m+[m			[32mPermissions.Add(Permission.PermissionType.CanRegisterAppointments);[m
+[32m+[m			[32mPermissions.Add(Permission.PermissionType.CanMarkJournalEntriesWithDifferentReadPermissions);[m
+[32m+[m			[32mPermissions.Add(Permission.PermissionType.CanViewPatientsJournaEntries);[m
+[32m+[m
+[32m+[m
+[32m+[m		[32m}[m
+ 	}[m
+[32m+[m[41m		[m
+[32m+[m
+[32m+[m		[32mpublic bool HasPermission(Permission.PermissionType p)[m
+[32m+[m
+[32m+[m
+[32m+[m	[32m{[m
+[32m+[m		[32mreturn Permissions.Contains(p);[m
+[32m+[m[41m		[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m	[32m}[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m
+ [m
+[31m-}[m
+ [m
+ [m
