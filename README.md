@@ -96,6 +96,19 @@ Purpose:**
 **Why important:**
 •	Establishes role-based logic.
 
+**Step 7:Admin Permissions and Region Assignment**
+**Purpose:**
+The goal of this feature was to introduce hierarchical control and regional management within the healthcare system.
+
+**Implemented:**
+To achieve this, two new admin options were added to the main menu
+. Assign permission to admin.
+. Assign region to admin.
+**Why Important:**
+• Enhanced Security
+•  Better Team Collaboration
+
+
 
 **Technology Used**
 This project was created as a group effort to model a healthcare management system in the actual world.it emphasizes modularity, security, and maintainability, following best practices in C# development.
