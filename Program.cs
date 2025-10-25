@@ -1,4 +1,4 @@
-﻿﻿using HealthCare5;
+﻿using HealthCare5;
 using System.Diagnostics;
 
 // Create lists to store users and locations 
@@ -9,12 +9,12 @@ Permission permission = new();
 
 User? active_user = null;
 
-// sample users
+// Sample users
 users.Add(new User("111", "1111", User.Role.Admin));
-users.Add(new User("222", "2222", User.Role.Admins));
 users.Add(new User("333", "3333", User.Role.Personnel));
 users.Add(new User("888", "8888", User.Role.Personnel));
 users.Add(new Patient("444", "4444") { Status = Permission.PatientStatus.Approved });
+
 Patient patient555 = new Patient("555", "5555") { Status = Permission.PatientStatus.Approved };
 patient555.JournalEntries.Add("Fever on Oct 20.");
 users.Add(patient555);
@@ -31,7 +31,7 @@ while (running)
     Console.Clear();
     if (active_user == null)
     {
-        // Main menu
+        // --- Main menu ---
         Console.WriteLine("=== HealthCare System ===");
         Console.WriteLine("1. Login");
         Console.WriteLine("2. Register as patient");
@@ -138,8 +138,8 @@ while (running)
         Console.WriteLine("Logged in as: " + active_user.SSN + " (" + active_user.UserRole + ")");
         Console.WriteLine();
 
-        // ---- SuperAdmin / Admin ----
-        if (active_user.UserRole == User.Role.Admin || active_user.UserRole == User.Role.Admins)
+        // ---- ADMIN ----
+        if (active_user.UserRole == User.Role.Admin)
         {
             Console.WriteLine("1. Add location");
             Console.WriteLine("2. View locations");
@@ -150,88 +150,90 @@ while (running)
             Console.Write("Choose: ");
             string? choice = Console.ReadLine();
 
-            if (choice == "1")
+            switch (choice)
             {
-                Console.Clear();
-                Console.Write("Location name: ");
-                string? name = Console.ReadLine();
-                Console.Write("Description: ");
-                string? desc = Console.ReadLine();
+                case "1":
+                    Console.Clear();
+                    Console.Write("Location name: ");
+                    string? name = Console.ReadLine();
+                    Console.Write("Description: ");
+                    string? desc = Console.ReadLine();
 
-                if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(desc))
-                {
-                    locations.Add(new Location(name, desc));
-                    Console.WriteLine("Location added.");
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input.");
-                }
-                Console.ReadLine();
-            }
-            else if (choice == "2")
-            {
-                Console.Clear();
-                Console.WriteLine("All locations:");
-                if (locations.Count == 0)
-                    Console.WriteLine("No locations yet.");
-                else
-                    foreach (Location loc in locations)
-                        Console.WriteLine("- " + loc.Name + ": " + loc.Description);
-                Console.ReadLine();
-            }
-            else if (choice == "3")
-            {
-                Console.Clear();
-                permission.ShowPendingPatients(users);
-                Console.ReadLine();
-            }
-            else if (choice == "4")
-            {
-                Console.Clear();
-                permission.ShowPendingPatients(users);
-                Console.Write("Patient SSN: ");
-                string? ssn = Console.ReadLine();
-
-                Patient? selected = null;
-                foreach (User u in users)
-                {
-                    if (u is Patient p && p.SSN == ssn)
+                    if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(desc))
                     {
-                        selected = p;
-                        break;
+                        locations.Add(new Location(name, desc));
+                        Console.WriteLine("Location added.");
                     }
-                }
-
-                if (selected == null)
-                {
-                    Console.WriteLine("Patient not found.");
-                }
-                else
-                {
-                    Console.Write("Approve (a) or Deny (d)? ");
-                    string? action = Console.ReadLine();
-
-                    if (action == "a")
-                        permission.ApprovePatient(selected);
-                    else if (action == "d")
-                        permission.DenyPatient(selected);
                     else
-                        Console.WriteLine("Invalid choice.");
-                }
-                Console.ReadLine();
-            }
-            else if (choice == "5")
-            {
-                ShowLocationSchedule(locations); // Ändrat
-            }
-            else if (choice == "l")
-            {
-                active_user = null;
+                    {
+                        Console.WriteLine("Invalid input.");
+                    }
+                    Console.ReadLine();
+                    break;
+
+                case "2":
+                    Console.Clear();
+                    Console.WriteLine("All locations:");
+                    if (locations.Count == 0)
+                        Console.WriteLine("No locations yet.");
+                    else
+                        foreach (Location loc in locations)
+                            Console.WriteLine("- " + loc.Name + ": " + loc.Description);
+                    Console.ReadLine();
+                    break;
+
+                case "3":
+                    Console.Clear();
+                    permission.ShowPendingPatients(users);
+                    Console.ReadLine();
+                    break;
+
+                case "4":
+                    Console.Clear();
+                    permission.ShowPendingPatients(users);
+                    Console.Write("Patient SSN: ");
+                    string? ssn = Console.ReadLine();
+
+                    Patient? selected = null;
+                    foreach (User u in users)
+                    {
+                        if (u is Patient p && p.SSN == ssn)
+                        {
+                            selected = p;
+                            break;
+                        }
+                    }
+
+                    if (selected == null)
+                    {
+                        Console.WriteLine("Patient not found.");
+                    }
+                    else
+                    {
+                        Console.Write("Approve (a) or Deny (d)? ");
+                        string? action = Console.ReadLine();
+
+                        if (action == "a")
+                            permission.ApprovePatient(selected);
+                        else if (action == "d")
+                            permission.DenyPatient(selected);
+                        else
+                            Console.WriteLine("Invalid choice.");
+                    }
+                    Console.ReadLine();
+                    break;
+
+                case "5":
+                    ShowLocationSchedule(locations);
+                    break;
+
+                case "l":
+                    active_user = null;
+                    break;
             }
         }
 
-        // Patient
+        // ---- PATIENT ----
         else if (active_user.UserRole == User.Role.Patient)
         {
             Patient patientUser = (Patient)active_user;
@@ -257,248 +259,78 @@ while (running)
             }
         }
 
-        // Personnel
+        // ---- PERSONNEL ----
         else if (active_user.UserRole == User.Role.Personnel)
         {
             Console.WriteLine("1. View locations");
             Console.WriteLine("2. View schedule for a location");
             Console.WriteLine("3. View patient journal");
-            Console.WriteLine("4. Approve Appointment");
-            Console.WriteLine("5. Modify Appointment");
-            Console.WriteLine("6. Register Appointment");
-            Console.WriteLine("7. Journal Entries With Different Read Permission");
-            Console.WriteLine("8. Patients Journal Entries");
             Console.WriteLine("l. Logout");
-
             Console.Write("Choose: ");
             string? choice = Console.ReadLine();
 
             switch (choice)
             {
                 case "1":
-                    if (active_user.HasPermission(Permission.PermissionType.CanViewScheduleLocation))
+                    if (Permission.HasPermission(active_user, Permission.PermissionType.CanViewScheduleLocation))
                     {
                         Console.Clear();
                         Console.WriteLine("All locations:");
                         if (locations.Count == 0)
                             Console.WriteLine("No locations yet.");
                         else
-                            foreach (Location loc in locations)
+                            foreach (var loc in locations)
                                 Console.WriteLine("- " + loc.Name + ": " + loc.Description);
-                        Console.WriteLine("Press Enter to continue");
                         Console.ReadLine();
                     }
                     else
                     {
-                        Console.WriteLine("You do not have permission to view locations");
+                        Console.WriteLine("You do not have permission to view locations.");
                         Console.ReadLine();
                     }
                     break;
 
                 case "2":
-                    if (active_user.HasPermission(Permission.PermissionType.CanViewScheduleLocation))
-                        ShowLocationSchedule(locations); // Ändrat
+                    if (Permission.HasPermission(active_user, Permission.PermissionType.CanViewScheduleLocation))
+                        ShowLocationSchedule(locations);
                     else
                     {
-                        Console.WriteLine("You do not have permission to view schedule");
+                        Console.WriteLine("You do not have permission to view schedules.");
                         Console.ReadLine();
                     }
                     break;
 
-                case "3": // Ändrat: Patientjournal fixad
-                
-                    Console.Clear();
-                    Console.WriteLine("=== View Patient Journal ===");
-                    Console.Write("Enter patient SSN: ");
-                    string? ssn3 = Console.ReadLine();
-
-                    // Step 1: Search for the patient
-                  Patient? targetPatient = null;
-    
-                  foreach (User user in users)
-                 {
-                 if (user is Patient patient)
+                case "3":
+                    if (Permission.HasPermission(active_user, Permission.PermissionType.CanViewPatientsJournaEntries))
                     {
-                 if (patient.SSN == ssn3)
-                 {
-                 targetPatient = patient;
-                 break;
-                  }
-                   }
-                 }
+                        Console.Clear();
+                        Console.Write("Enter patient SSN: ");
+                        string? ssn3 = Console.ReadLine();
 
-                  // Step 2: Check if patient was found
-                 if (targetPatient == null)
-                {
-                   Console.WriteLine("Patient not found.");
-                 }
-                 // Step 3: Check if patient is approved
-                 else if (targetPatient.Status != Permission.PatientStatus.Approved)
-                {
-                 Console.WriteLine("Patient is not approved. Journal access denied.");
-                }
-                 // Step 4: Show the journal
-                else
-                {
-                targetPatient.ShowJournal();
-                }
-
-                Console.ReadLine();
-                break;
-
-                case "4":
-                    if (active_user.HasPermission(Permission.PermissionType.CanApproveAppointmentRequests))
-                        Console.WriteLine("View appointment requests");
-                    else
-                        Console.WriteLine("You do not have permission to approve requests");
-                    Console.ReadLine();
-                    break;
-
-                case "5":
-                    if (active_user.HasPermission(Permission.PermissionType.CanModifyAppointments))
-                        Console.WriteLine("View modify appointments");
-                    else
-                        Console.WriteLine("You do not have permission to modify appointments");
-                    Console.ReadLine();
-                    break;    
-
-                /*case "5":
-
-                    if (active_user.HasPermission(Permission.PermissionType.CanModifyAppointments))
-                    {
-                        //Console.Clear();
-                       // Console.WriteLine("Modify Appointment");
-
-                        //all apoointment 
-                       // List<Appointment> allAppointments = new List<Appointment>();
-                       // List<Location> ownerLocations = new List<Location>();
-
-
-
-
-                     else
-                        Console.WriteLine("You do not have permission to modify appointments");
-                    Console.ReadLine();
-                    break;
-
-
-
-                    
-                        
-                    }*/
-                
-
-
-                case "6":
-                    if (active_user.HasPermission(Permission.PermissionType.CanRegisterAppointments))
-                  {
-                     Console.Clear();
-                     Console.WriteLine("=== Register New Appointment ===");
-
-                      if (locations.Count == 0)
-                     {
-                       Console.WriteLine("No locations available.");
-                       Console.ReadLine();
-                       }
-                     else
-                       {
-                        // Show locations with numbers: 1, 2, 3...
-                        Console.WriteLine("Available locations:");
-                        int number = 1;
-                        foreach (Location loc in locations)
-                     {
-                      Console.WriteLine(number + ". " + loc.Name + " - " + loc.Description);
-                      number++;
-                      }
-
-                     Console.Write("Enter location number (e.g. 1): ");
-                     string? locInput = Console.ReadLine();
-
-                     // Find selected location using simple loop
-                      Location? selectedLocation = null;
-                      int counter = 1;
-                       foreach (Location loc in locations)
-                     {
-                       if (locInput == counter.ToString())
-                     {
-                        selectedLocation = loc;
-                        break;
+                        Patient? targetPatient = null;
+                        foreach (User user in users)
+                        {
+                            if (user is Patient patient && patient.SSN == ssn3)
+                            {
+                                targetPatient = patient;
+                                break;
+                            }
                         }
-                        counter++;
-                      }
 
-                     if (selectedLocation == null)
-                      {
-                        Console.WriteLine("Invalid location number.");
+                        if (targetPatient == null)
+                            Console.WriteLine("Patient not found.");
+                        else if (targetPatient.Status != Permission.PatientStatus.Approved)
+                            Console.WriteLine("Patient not approved. Access denied.");
+                        else
+                            targetPatient.ShowJournal();
+
                         Console.ReadLine();
-                      }
-                     else
-                     {
-                     // Get appointment details
-                     Console.Write("Patient SSN: ");
-                     string? patientSSN = Console.ReadLine();
-
-                    Console.Write("Date (yyyy-MM-dd): ");
-                    string? dateStr = Console.ReadLine();
-
-                     Console.Write("Time (HH:mm): ");
-                    string? timeStr = Console.ReadLine();
-
-                    Console.Write("Reason: ");
-                    string? reason = Console.ReadLine();
-
-                    // Check if any field is missing
-                    if (string.IsNullOrEmpty(patientSSN) ||
-                       string.IsNullOrEmpty(dateStr) ||
-                       string.IsNullOrEmpty(timeStr) ||
-                       string.IsNullOrEmpty(reason))
+                    }
+                    else
                     {
-                      Console.WriteLine("All fields are required.");
-                      Console.ReadLine();
+                        Console.WriteLine("You do not have permission to view patient journals.");
+                        Console.ReadLine();
                     }
-                    else
-                    { 
-                       // Try to create the appointment
-                      try
-                      {
-                          string fullDateTime = dateStr + " " + timeStr;
-                          DateTime apptTime = DateTime.Parse(fullDateTime);
-
-                          Appointment newAppt = new Appointment(apptTime, patientSSN, reason);
-                          selectedLocation.AddAppointment(newAppt);
-
-                          Console.WriteLine("✅ Appointment registered successfully!");
-                       }
-                      catch
-                      {
-                          Console.WriteLine("❌ Invalid date or time. Use format: yyyy-MM-dd and HH:mm");
-                      }
-                       Console.ReadLine();
-                         }
-                        }
-                    }
-                    }
-                   else
-                    {
-                        Console.WriteLine("You do not have permission to register appointments");
-                       Console.ReadLine();
-                    }
-                    break;
-
-                case "7":
-                    if (active_user.HasPermission(Permission.PermissionType.CanMarkJournalEntriesWithDifferentReadPermissions))
-                        Console.WriteLine("View journal entries with different read permissions");
-                    else
-                        Console.WriteLine("You do not have permission to view these entries");
-                    Console.ReadLine();
-                    break;
-
-                case "8":
-                    if (active_user.HasPermission(Permission.PermissionType.CanViewPatientsJournaEntries))
-                        Console.WriteLine("View patients journal entries");
-                    else
-                        Console.WriteLine("You do not have permission to view patients journal entries");
-                    Console.ReadLine();
                     break;
 
                 case "l":
@@ -509,94 +341,46 @@ while (running)
     }
 }
 
-// Ändrat: Flyttad funktion utanför alla loopar och switchar
+// --- Function outside main loop ---
 bool ShowLocationSchedule(List<Location> locations)
 {
     Console.Clear();
-    
-    // Do we have any locations?
-    int numberOfLocations = locations.Count;
-    
-    if (numberOfLocations == 0)
+
+    if (locations.Count == 0)
     {
-        Console.WriteLine("No locations available.");
+        Console.WriteLine("No locations yet.");
         Console.ReadLine();
         return false;
     }
-    
-    // Show all locations
+
     Console.WriteLine("Locations:");
-    
-    int counter = 1;
-    for (int i = 0; i < numberOfLocations; i++)
-    {
-        Location loc = locations[i];
-        Console.WriteLine(counter + ". " + loc.Name + " - " + loc.Description);
-        counter = counter + 1;
-    }
-    
-    // Ask which location they want
+    for (int i = 0; i < locations.Count; i++)
+        Console.WriteLine((i + 1) + ". " + locations[i].Name + " - " + locations[i].Description);
+
     Console.Write("Enter location number: ");
-    string userInput = Console.ReadLine();
-    
-    if (userInput == null)
-    {
-        userInput = "";
-    }
-    
-    // Convert text to number
-    int selectedNumber = 0;
-    bool isNumber = int.TryParse(userInput, out selectedNumber);
-    
-    // Is it a valid number?
-    bool isValid = true;
-    
-    if (isNumber == false)
-    {
-        isValid = false;
-    }
-    else if (selectedNumber < 1)
-    {
-        isValid = false;
-    }
-    else if (selectedNumber > numberOfLocations)
-    {
-        isValid = false;
-    }
-    
-    if (isValid == false)
+    string choice = Console.ReadLine() ?? "";
+
+    if (!int.TryParse(choice, out int number) || number < 1 || number > locations.Count)
     {
         Console.WriteLine("Invalid location number.");
         Console.ReadLine();
         return false;
     }
-    
-    // Get the location they chose
-    int index = selectedNumber - 1;
-    Location chosenLocation = locations[index];
-    
-    // Show the schedule
+
+    Location selected = locations[number - 1];
     Console.Clear();
-    Console.WriteLine("Schedule for: " + chosenLocation.Name + " - " + chosenLocation.Description);
-    
-    int appointmentCount = chosenLocation.Appointment.Count;
-    
-    if (appointmentCount == 0)
-    {
+    Console.WriteLine("Schedule for: " + selected.Name + " - " + selected.Description);
+
+    if (selected.Appointment.Count == 0)
         Console.WriteLine("No appointments scheduled.");
-    }
     else
-    {
-        for (int i = 0; i < appointmentCount; i++)
-        {
-            Appointment appt = chosenLocation.Appointment[i];
-            Console.WriteLine("- " + appt.GetInfo());
-        }
-    }
-    
+        foreach (var a in selected.Appointment)
+            Console.WriteLine("- " + a.GetInfo());
+
     Console.ReadLine();
     return true;
 }
+
 Console.WriteLine("Program closed.");
 
 
