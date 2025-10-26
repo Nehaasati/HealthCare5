@@ -1,4 +1,4 @@
- namespace HealthCare5;
+namespace HealthCare5;
 class Appointment
 {
     // Date and time of the appointment
