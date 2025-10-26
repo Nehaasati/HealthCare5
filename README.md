@@ -1,14 +1,13 @@
 HealthCare5
 Group Project:
 
-Neha asati             31asatineha@gmail.com
-Pedram Basimfar        Pedram.basim@gmail.com
-Arbaz Shah             arbazhussain067@gmail.com
-Kifle Haile Selassie    kifle.uni@gmail.com 
-Neha asati          31asatineha@gmail.com
-Pedram Basimfar     Pedram.basim@gmail.com
-Arbaz Shah          arbazhussain067@gmail.com
-Kifle Haile Selassie kifle.uni@gmail.com
+Neha asati             31asatineha@gmail.com // GitHub: Nehaasati
+Pedram Basimfar        Pedram.basim@gmail.com // GitHub: pedram-cyber
+Arbaz Shah             arbazhussain067@gmail.com // GitHub:arbazshah52
+Kifle Haile Selassie    kifle.uni@gmail.com // GitHub: KHS1993
+
+**Link to code:**
+git@github.com:Nehaasati/HealthCare5.git
 
 **Project Description – Health Care System**
 **By Neha, Arbaz, Pedram, and Kifle**
