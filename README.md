@@ -50,7 +50,9 @@ Allows new users to register as patients. New registrations are initially Pendin
 **Why important:**
 •	Implements workflow for patient onboarding.
 •	Ensures patients cannot access system functions until approved.
-•
+
+
+
 **Step 3: Admin Actions
 Purpose:**
 Admins manage locations, approve/deny patients, and (in future versions) manage permissions for other admins and personnel accounts.
@@ -93,6 +95,19 @@ Purpose:**
 •	Admins can approve or deny patients.
 **Why important:**
 •	Establishes role-based logic.
+
+**Step 7:Admin Permissions and Region Assignment**
+**Purpose:**
+The goal of this feature was to introduce hierarchical control and regional management within the healthcare system.
+
+**Implemented:**
+To achieve this, two new admin options were added to the main menu
+. Assign permission to admin.
+. Assign region to admin.
+**Why Important:**
+• Enhanced Security
+•  Better Team Collaboration
+
 
 
 **Technology Used**
